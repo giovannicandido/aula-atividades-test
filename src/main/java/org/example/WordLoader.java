@@ -14,22 +14,13 @@ public class WordLoader {
 
     private final int wordLength;
 
-    private static final int[] SUPPORTED_SIZES = new int[]{3,4,5};
-
     public WordLoader(int wordLength) {
         this.wordLength = wordLength;
     }
 
     public String load() {
-        boolean containsSize = false;
-        for (int size : SUPPORTED_SIZES) {
-           if(size == this.wordLength) {
-               containsSize = true;
-               break;
-           }
-        }
 
-        if(!containsSize) {
+        if(this.wordLength < 3 || this.wordLength > 5) {
             throw new NotSupportedWordLengthException();
         }
 
