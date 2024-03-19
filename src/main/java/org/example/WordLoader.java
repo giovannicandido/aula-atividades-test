@@ -14,11 +14,25 @@ public class WordLoader {
 
     private final int wordLength;
 
+    private static final int[] SUPPORTED_SIZES = new int[]{3,4,5};
+
     public WordLoader(int wordLength) {
         this.wordLength = wordLength;
     }
 
     public String load() {
+        boolean containsSize = false;
+        for (int size : SUPPORTED_SIZES) {
+           if(size == this.wordLength) {
+               containsSize = true;
+               break;
+           }
+        }
+
+        if(!containsSize) {
+            throw new NotSupportedWordLengthException();
+        }
+
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL resourceAsStream = classLoader.getResource("words_" + wordLength + ".txt");
         try {
