@@ -14,7 +14,7 @@ class GuessWordTest {
 
     @ParameterizedTest
     @MethodSource("letterSource")
-    void testLetterExist(String word, char letter, int[] result) {
+    void testLetterExist(String word, char letter, Integer[] result) {
         GuessWord guessWord = new GuessWord(word);
         assertThat(guessWord.letterExist(letter))
                 .containsExactlyInAnyOrder(result);
@@ -22,11 +22,11 @@ class GuessWordTest {
 
     public static Stream<Arguments> letterSource() {
         return Stream.of(
-                Arguments.of("bola", 'b', new int[]{0}),
-                Arguments.of("bola", 'l', new int[]{2}),
-                Arguments.of("paralelepipedo", 'p', new int[]{0,8,10}),
-                Arguments.of("leite", 'g', new int[]{}),
-                Arguments.of("outra palavra", 'g', new int[]{})
+                Arguments.of("bola", 'b', new Integer[]{0}),
+                Arguments.of("bola", 'l', new Integer[]{2}),
+                Arguments.of("paralelepipedo", 'p', new Integer[]{0,8,10}),
+                Arguments.of("leite", 'g', new Integer[]{}),
+                Arguments.of("outra palavra", 'g', new Integer[]{})
         );
     }
 }

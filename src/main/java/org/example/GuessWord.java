@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GuessWord {
     private final String word;
 
@@ -12,8 +15,16 @@ public class GuessWord {
      * @param letter The letter to check
      * @return Position of the letter
      */
-    public int[] letterExist(char letter) {
+    public Integer[] letterExist(char letter) {
+        List<Integer> letterPositions = new ArrayList<>();
+
+        for(int index = 0; index < this.word.length(); index++) {
+           char possibleLetter = this.word.charAt(index);
+           if(possibleLetter == letter) {
+               letterPositions.add(index);
+           }
+        }
 //        char possibleLetter = word.charAt(2);
-        return new int[]{};
+        return letterPositions.toArray(Integer[]::new);
     }
 }
