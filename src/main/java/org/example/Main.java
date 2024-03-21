@@ -33,7 +33,9 @@ public class Main {
         for(int index = 0; index < wordToPlay.length(); index++) {
             currentGuessedWord.add('_');
         }
+
         // contar as tentativas
+        boolean win = false;
         for(int attempt = 1; attempt < maxAttempts; attempt++) {
             // todo desenhar o boneco
             System.out.print("Entre com uma letra: ");
@@ -58,11 +60,13 @@ public class Main {
 
             if(currentGuessedWord.stream().noneMatch((a) -> a.equals('_') )) {
                 System.out.println("You win!!");
+                win = true;
                 break;
             }
         }
-
-        System.out.println("Game over");
+        if(!win) {
+            System.out.println("Game over");
+        }
     }
 
 //    "_,v,_"
