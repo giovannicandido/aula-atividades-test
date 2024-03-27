@@ -8,13 +8,17 @@ import java.util.stream.IntStream;
 
 public class GuessWord {
     private final String word;
-    private Map<Integer, Character> currentGuessedWord = new HashMap<>();
+    private Map<Integer, Character> currentGuessedWord;
 
     public static int MAX_ATTEMPTS = 5;
     private int currentAttempt = 0;
 
     public GuessWord(String word) {
+        currentGuessedWord = new HashMap<>();
         this.word = word;
+        for(int index = 0;  index < word.length(); index++) {
+            this.currentGuessedWord.put(index, '_');
+        }
     }
 
     /**
@@ -62,7 +66,19 @@ public class GuessWord {
     }
 
     public boolean win() {
-        return currentGuessedWord.size() == word.length();
+
+        boolean sameSize = currentGuessedWord.size() == word.length();
+
+        boolean isSame = true;
+
+        for(int index = 0; index < word.length(); index++) {
+            if(currentGuessedWord.get(index) != word.charAt(index)) {
+                isSame = false;
+                break;
+            }
+        }
+
+        return sameSize && isSame;
     }
 
     public Map<Integer, Character> toDataStructure() {
