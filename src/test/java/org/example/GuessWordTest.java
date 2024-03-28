@@ -182,6 +182,23 @@ class GuessWordTest {
         assertThat(guessWord.hasMoreAttempts()).isFalse();
     }
 
+    @Test
+    void deveManterGuessWordIntacto() {
+        GuessWord guessWord = new GuessWord("abrir");
+        Map<Integer, Character> dataStructure = guessWord.toDataStructure();
+
+        dataStructure.put(6, 'k');
+
+        var dataStructure2 = guessWord.toDataStructure();
+        assertThat(dataStructure2.get(6)).isNull();
+        assertThat(dataStructure2.get(0)).isEqualTo('_');
+        assertThat(dataStructure2.get(1)).isEqualTo('_');
+        assertThat(dataStructure2.get(2)).isEqualTo('_');
+        assertThat(dataStructure2.get(3)).isEqualTo('_');
+        assertThat(dataStructure2.get(4)).isEqualTo('_');
+
+    }
+
 
 
     public static Stream<Arguments> letterSource() {

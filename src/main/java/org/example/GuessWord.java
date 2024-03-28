@@ -1,9 +1,7 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class GuessWord {
@@ -86,6 +84,9 @@ public class GuessWord {
     }
 
     public Map<Integer, Character> toDataStructure() {
-        return currentGuessedWord;
+        return currentGuessedWord
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 }

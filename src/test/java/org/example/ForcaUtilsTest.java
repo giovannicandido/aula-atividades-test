@@ -57,7 +57,7 @@ class ForcaUtilsTest {
         positions.add(1);
 
         String forca2 = utils.montarForca(guessedLetter, wordToPlay, positions, 'e');
-        assertThat(forca2).isEqualTo("s_____a");
+        assertThat(forca2).isEqualTo("se____a");
 
     }
 
@@ -77,5 +77,32 @@ class ForcaUtilsTest {
         positions.add(10);
         String forca = utils.montarForca(guessedLetter, wordToPlay, positions, 'c');
         assertThat(forca).isEqualTo("s_____a");
+    }
+
+    @Test
+    void deveMontarForcaSemAlterarLetrasAdivinhadas() {
+        ForcaUtils utils = new ForcaUtils();
+        var wordToPlay = "senhora";
+        var guessedLetter = new HashMap<Integer, Character>();
+        guessedLetter.put(0, 's');
+        guessedLetter.put(1, '_');
+        guessedLetter.put(2, '_');
+        guessedLetter.put(3, '_');
+        guessedLetter.put(4, '_');
+        guessedLetter.put(5, '_');
+        guessedLetter.put(6, 'a');
+        List<Integer> positions = new ArrayList<>();
+        positions.add(1);
+
+        String forca = utils.montarForca(guessedLetter, wordToPlay, positions, 'e');
+
+        assertThat(forca).isEqualTo("se____a");
+        assertThat(guessedLetter.get(0)).isEqualTo('s');
+        assertThat(guessedLetter.get(1)).isEqualTo('_');
+        assertThat(guessedLetter.get(2)).isEqualTo('_');
+        assertThat(guessedLetter.get(3)).isEqualTo('_');
+        assertThat(guessedLetter.get(4)).isEqualTo('_');
+        assertThat(guessedLetter.get(5)).isEqualTo('_');
+        assertThat(guessedLetter.get(6)).isEqualTo('a');
     }
 }

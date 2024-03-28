@@ -1,8 +1,6 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static Scanner scanner;
@@ -36,7 +34,9 @@ public class Main {
                 System.out.println("Letra inválida entre apenas uma letra");
             }
             List<Integer> guess = guessWord.guess(letter.charAt(0));
-            var forca = forcaUtils.montarForca(guessWord.toDataStructure(), wordToPlay, guess, letter.charAt(0));
+            Map<Integer, Character> dataStructure = guessWord.toDataStructure();
+            var guessWords = Collections.unmodifiableMap(dataStructure);
+            var forca = forcaUtils.montarForca(guessWords, wordToPlay, guess, letter.charAt(0));
             System.out.println(forca);
             if(!guessWord.hasMoreAttempts()) {
                 System.out.println("Game over");
