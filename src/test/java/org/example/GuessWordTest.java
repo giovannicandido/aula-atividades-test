@@ -135,6 +135,53 @@ class GuessWordTest {
         assertThat(guessWord.win()).isFalse();
     }
 
+    @Test
+    void deveRetornarQuePossuiMaisTentativas() {
+        GuessWord guessWord = new GuessWord("nadador");
+        assertThat(guessWord.hasMoreAttempts()).isTrue();
+    }
+
+    @Test
+    void deveRetornarQuePossuiMaisTentativasScenario2() {
+        GuessWord guessWord = new GuessWord("nadador");
+        guessWord.guess('b');
+        assertThat(guessWord.hasMoreAttempts()).isTrue();
+    }
+
+    @Test
+    void deveRetornarQuePossuiMaisTentativasScenario3() {
+        GuessWord guessWord = new GuessWord("paralelepipido");
+        guessWord.guess('p');
+        guessWord.guess('a');
+        guessWord.guess('k');
+        guessWord.guess('k');
+        guessWord.guess('k');
+        assertThat(guessWord.hasMoreAttempts()).isTrue();
+    }
+
+    @Test
+    void deveRetornarQuePossuiMaisTentativasScenario4() {
+        GuessWord guessWord = new GuessWord("paralelepipido");
+        guessWord.guess('k');
+        guessWord.guess('w');
+        guessWord.guess('k');
+        guessWord.guess('y');
+        guessWord.guess('y');
+        assertThat(guessWord.hasMoreAttempts()).isFalse();
+    }
+
+    @Test
+    void deveRetornarQuePossuiMaisTentativasScenario5() {
+        GuessWord guessWord = new GuessWord("paralelepipido");
+        guessWord.guess('k');
+        guessWord.guess('w');
+        guessWord.guess('k');
+        guessWord.guess('y');
+        guessWord.guess('y');
+        guessWord.guess('z');
+        assertThat(guessWord.hasMoreAttempts()).isFalse();
+    }
+
 
 
     public static Stream<Arguments> letterSource() {

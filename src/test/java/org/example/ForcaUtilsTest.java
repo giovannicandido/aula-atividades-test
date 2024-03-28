@@ -78,9 +78,4 @@ class ForcaUtilsTest {
         String forca = utils.montarForca(guessedLetter, wordToPlay, positions, 'c');
         assertThat(forca).isEqualTo("s_____a");
     }
-
-    @Test
-    void deveRetornarEstruturaDeDados() {
-
-    }
 }

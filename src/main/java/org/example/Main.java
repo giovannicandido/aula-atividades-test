@@ -27,7 +27,7 @@ public class Main {
         // adivinhar as letras
         GuessWord guessWord = new GuessWord(wordToPlay);
 
-        for(int attempt = 1; attempt < GuessWord.MAX_ATTEMPTS; attempt++) {
+        for(int attempt = 1; attempt <= GuessWord.MAX_ATTEMPTS; attempt++) {
             // todo desenhar o boneco
             System.out.print("Entre com uma letra: ");
             String letter = scanner.next();
@@ -37,7 +37,7 @@ public class Main {
             }
             List<Integer> guess = guessWord.guess(letter.charAt(0));
             var forca = forcaUtils.montarForca(guessWord.toDataStructure(), wordToPlay, guess, letter.charAt(0));
-            System.out.printf(forca);
+            System.out.println(forca);
             if(!guessWord.hasMoreAttempts()) {
                 System.out.println("Game over");
                 break;

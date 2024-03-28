@@ -56,13 +56,17 @@ public class GuessWord {
                 currentGuessedWord.put(index, letter);
                 guess = true;
             }
+
         }
-        currentAttempt++;
+        if(!guess) {
+            currentAttempt++;
+        }
+
         return positions;
     }
 
     public boolean hasMoreAttempts() {
-        return currentAttempt > MAX_ATTEMPTS;
+        return currentAttempt < MAX_ATTEMPTS;
     }
 
     public boolean win() {
