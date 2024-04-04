@@ -1,5 +1,7 @@
 package org.example.geminiai;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.net.URIBuilder;
 
@@ -20,6 +22,7 @@ public class GeminiWordLoader {
     private static final String APPLICATION_JSON = "application/json";
     private static final String TOKEN = "AIzaSyA0qE4kEK58ianCgeQVxxhyrmIpReb4BK0";
     private HttpClient httpClient = HttpClient.newBuilder().build();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     // { "contents":[
     //      { "parts":[{"text": "Write a story about a magic backpack"}]}
@@ -57,13 +60,18 @@ public class GeminiWordLoader {
         try {
             response = httpClient.send(request,
                     HttpResponse.BodyHandlers.ofString());
+
+            JsonNode responseJson = objectMapper.readTree(response.body());
+
+            String responseText = responseJson
+                    .at("/candidates/0/content/parts/0/text")
+                    .asText();
+            System.out.println(responseText);
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Resposta:");
-        System.out.println(response.body());
         return new ArrayList<>();
     }
 }
