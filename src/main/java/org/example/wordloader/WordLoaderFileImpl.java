@@ -1,7 +1,8 @@
-package org.example;
+package org.example.wordloader;
+
+import org.example.NotSupportedWordLengthException;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -9,14 +10,15 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Random;
 
-public class WordLoader {
+public class WordLoaderFileImpl implements WordLoader {
 
     private final int wordLength;
 
-    public WordLoader(int wordLength) {
+    public WordLoaderFileImpl(int wordLength) {
         this.wordLength = wordLength;
     }
 
+    @Override
     public String load() {
 
         if(this.wordLength < 3 || this.wordLength > 5) {

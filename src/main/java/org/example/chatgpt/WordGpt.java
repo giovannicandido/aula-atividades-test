@@ -11,6 +11,7 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.HttpConstants;
 import org.example.chatgpt.model.Message;
 import org.example.chatgpt.model.RequestModel;
 import org.example.chatgpt.model.ResponseMessage;
@@ -18,10 +19,6 @@ import org.example.chatgpt.model.Role;
 
 public class WordGpt {
     private static String CHAT_GPT_URL = "https://api.openai.com/v1/chat/completions";
-    private static final String HEADER_CONTENT_TYPE = "Content-Type";
-    private static final String HEADER_AUTHORIZATION = "Authorization";
-    private static final String APPLICATION_JSON = "application/json";
-    private static final String TOKEN = "";
     private final ObjectMapper objectMapper;
     private static final String PROMPT = "retorne uma lista de %s palavras com %s letras uma por linha";
     private HttpClient httpClient = HttpClient.newBuilder().build();
@@ -50,8 +47,8 @@ public class WordGpt {
         }
 
         HttpRequest httpRequest = HttpRequest.newBuilder(URI.create(CHAT_GPT_URL))
-                .header(HEADER_CONTENT_TYPE, APPLICATION_JSON)
-                .header(HEADER_AUTHORIZATION, "Bearer " + TOKEN)
+                .header(HttpConstants.HEADER_CONTENT_TYPE, HttpConstants.APPLICATION_JSON)
+                .header(HttpConstants.HEADER_AUTHORIZATION, "Bearer " + HttpConstants.TOKEN)
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 

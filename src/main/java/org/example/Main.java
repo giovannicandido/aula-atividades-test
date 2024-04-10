@@ -1,5 +1,9 @@
 package org.example;
 
+import org.example.geminiai.GeminiWordLoader;
+import org.example.wordloader.WordLoader;
+import org.example.wordloader.WordLoaderFileImpl;
+
 import java.util.*;
 
 public class Main {
@@ -7,6 +11,7 @@ public class Main {
     private static final ForcaUtils forcaUtils = new ForcaUtils();
 
     public static void main(String[] args) {
+        int maxAttemps = 5;
         scanner = new Scanner(System.in);
         // criar um menu de opcoes
         System.out.println("========================");
@@ -15,17 +20,20 @@ public class Main {
         System.out.println();
         // perguntar qual o tamanho da palavra
         System.out.println("Quantas letras você quer jogar? (Aceita-se 3, 4 ou 5)");
+        System.out.println("Qual o maximo de jogas que quer? ");
+        maxAttemps = scanner.nextInt();
 
         int letterSize = scanner.nextInt();
 
-        WordLoader wordLoader = new WordLoader(letterSize);
+        WordLoader wordLoader = new GeminiWordLoader(2, letterSize);
         // carregar uma palavra aleatoria
         String wordToPlay = wordLoader.load();
+        System.out.println("A palavra é " + wordToPlay);
 
         // adivinhar as letras
         GuessWord guessWord = new GuessWord(wordToPlay);
 
-        for(int attempt = 1; attempt <= GuessWord.MAX_ATTEMPTS; attempt++) {
+        for(int attempt = 1; attempt <= maxAttemps; attempt++) {
             // todo desenhar o boneco
             System.out.print("Entre com uma letra: ");
             String letter = scanner.next();
