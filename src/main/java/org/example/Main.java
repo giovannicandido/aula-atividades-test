@@ -1,13 +1,17 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import org.example.geminiai.GeminiWordLoader;
+import org.example.wordloader.WordLoader;
+import org.example.wordloader.WordLoaderFileImpl;
+
+import java.util.*;
 
 public class Main {
     private static Scanner scanner;
+    private static final ForcaUtils forcaUtils = new ForcaUtils();
 
     public static void main(String[] args) {
+        int maxAttemps = 5;
         scanner = new Scanner(System.in);
         // criar um menu de opcoes
         System.out.println("========================");
@@ -16,27 +20,20 @@ public class Main {
         System.out.println();
         // perguntar qual o tamanho da palavra
         System.out.println("Quantas letras você quer jogar? (Aceita-se 3, 4 ou 5)");
+        System.out.println("Qual o maximo de jogas que quer? ");
+        maxAttemps = scanner.nextInt();
 
         int letterSize = scanner.nextInt();
 
-        WordLoader wordLoader = new WordLoader(letterSize);
+        WordLoader wordLoader = new GeminiWordLoader(2, letterSize);
         // carregar uma palavra aleatoria
         String wordToPlay = wordLoader.load();
+        System.out.println("A palavra é " + wordToPlay);
 
         // adivinhar as letras
         GuessWord guessWord = new GuessWord(wordToPlay);
 
-        int maxAttempts = 10;
-        int currentAttempts = 0;
-        List<Integer> currentPositions = new ArrayList<>();
-        List<Character> currentGuessedWord = new ArrayList<>();
-        for(int index = 0; index < wordToPlay.length(); index++) {
-            currentGuessedWord.add('_');
-        }
-
-        // contar as tentativas
-        boolean win = false;
-        for(int attempt = 1; attempt < maxAttempts; attempt++) {
+        for(int attempt = 1; attempt <= maxAttemps; attempt++) {
             // todo desenhar o boneco
             System.out.print("Entre com uma letra: ");
             String letter = scanner.next();
@@ -44,49 +41,21 @@ public class Main {
             if(letter.length() > 1) {
                 System.out.println("Letra inválida entre apenas uma letra");
             }
-            Integer[] positionsFound = guessWord.letterExist(letter.charAt(0));
-            List<Integer> positions = new ArrayList<>(List.of(positionsFound));
-//            currentPositions.addAll(List.of(positions));
-            // accumulate the previous guesses characters
-            if(positions.isEmpty()) {
-                currentAttempts++;
-                System.out.println("Você errou tem agora " + (maxAttempts - currentAttempts) + " tentativas");
-                printForca(currentGuessedWord, wordToPlay, positions, letter.charAt(0));
-            } else {
-                // mostrar a advinhação
-                System.out.println();
-                printForca(currentGuessedWord, wordToPlay, positions, letter.charAt(0));
+            List<Integer> guess = guessWord.guess(letter.charAt(0));
+            Map<Integer, Character> dataStructure = guessWord.toDataStructure();
+            var guessWords = Collections.unmodifiableMap(dataStructure);
+            var forca = forcaUtils.montarForca(guessWords, wordToPlay, guess, letter.charAt(0));
+            System.out.println(forca);
+            if(!guessWord.hasMoreAttempts()) {
+                System.out.println("Game over");
+                break;
             }
-
-            if(currentGuessedWord.stream().noneMatch((a) -> a.equals('_') )) {
-                System.out.println("You win!!");
-                win = true;
+            if(guessWord.win()) {
+                System.out.println("You win");
                 break;
             }
         }
-        if(!win) {
-            System.out.println("Game over");
-        }
-    }
-
-//    "_,v,_"
-    private static void printForca(List<Character> guessedLetters, String wordToPlay, List<Integer> positions, Character letter) {
-        for(int index = 0; index < wordToPlay.length(); index++) {
-            int finalIndex = index;
-            boolean positionExists = positions
-                    .stream()
-                    .anyMatch((pos) -> finalIndex == pos);
-            if(positionExists) {
-                // 1. "o,v,_"
-                // 2. "o,v,_"
-                // 3. "o,v,o"
-                guessedLetters.set(index, letter);
-                System.out.print(letter);
-            }else {
-                System.out.print(guessedLetters.get(index));
-            }
-        }
-        System.out.println();
 
     }
+
 }
